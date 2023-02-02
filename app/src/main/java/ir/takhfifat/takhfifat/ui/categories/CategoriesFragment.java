@@ -1,4 +1,4 @@
-package ir.takhfifat.takhfifat.ui.slideshow;
+package ir.takhfifat.takhfifat.ui.categories;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import ir.takhfifat.takhfifat.databinding.FragmentSlideshowBinding;
+import ir.takhfifat.takhfifat.databinding.FragmentCategoriesBinding;
 
-public class SlideshowFragment extends Fragment {
+public class CategoriesFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentCategoriesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        CategoriesViewModel categoriesViewModel =
+                new ViewModelProvider(this).get(CategoriesViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentCategoriesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textCategories;
+        categoriesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
