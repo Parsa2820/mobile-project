@@ -9,8 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
+import ir.takhfifat.takhfifat.R;
 import ir.takhfifat.takhfifat.databinding.FragmentHomeBinding;
+import ir.takhfifat.takhfifat.model.Discount;
+import ir.takhfifat.takhfifat.ui.DiscountAdapter;
 
 public class HomeFragment extends Fragment {
 
@@ -18,14 +28,24 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final RecyclerView discountsRecyclerView = binding.homeDiscountsRecyclerView;
+        discountsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        StringBuilder url = new StringBuilder(getString(R.string.api_address));
+        url.append("discounts/");
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        StringRequest stringRequest = new StringRequest(url.toString(), response -> {
+            Gson gson = new Gson();
+            Discount[] discounts = gson.fromJson(response, Discount[].class);
+            discountsRecyclerView.setAdapter(new DiscountAdapter(discounts));
+        }, error -> {
+            // TODO Handle error
+            throw new RuntimeException(error);
+        });
+        queue.add(stringRequest);
         return root;
     }
 

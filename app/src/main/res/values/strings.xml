@@ -10,4 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_categories">Categories</string>
     <string name="menu_settings">Settings</string>
+    <string name="discount_image">Discount Image</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="api_address">http://takhfifat.parsa2820.ir:5086/api/</string>
 </resources>
