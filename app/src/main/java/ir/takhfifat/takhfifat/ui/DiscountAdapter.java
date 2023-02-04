@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import ir.takhfifat.takhfifat.DiscountActivity;
 import ir.takhfifat.takhfifat.R;
 import ir.takhfifat.takhfifat.model.Discount;
 
@@ -45,7 +46,15 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.ViewHo
         });
         Picasso.get().load(discount.getImageUrl()).into(holder.getImageUrlImageView());
         holder.getLinearLayout().setOnClickListener(v -> {
-            // TODO: Open DiscountActivity
+            Intent intent = new Intent(v.getContext(), DiscountActivity.class);
+            intent.putExtra("title", discount.getTitle());
+            intent.putExtra("description", discount.getDescription());
+            intent.putExtra("imageUrl", discount.getImageUrl());
+            intent.putExtra("link", discount.getLink());
+            intent.putExtra("category", discount.getCategory());
+            intent.putExtra("endDate", discount.getEndDate());
+            intent.putExtra("code", discount.getCode());
+            v.getContext().startActivity(intent);
         });
     }
 

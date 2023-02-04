@@ -13,4 +13,8 @@
     <string name="discount_image">Discount Image</string>
     <string name="placeholder">Placeholder</string>
     <string name="api_address">http://takhfifat.parsa2820.ir:5086/api/</string>
+    <string name="discount_code_attribute">Code:</string>
+    <string name="discount_end_date_attribute">End Date:</string>
+    <string name="discount_category_attribute">Category:</string>
+    <string name="copy_code">Copy Code</string>
 </resources>
