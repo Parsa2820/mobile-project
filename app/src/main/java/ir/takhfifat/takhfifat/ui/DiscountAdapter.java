@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import ir.takhfifat.takhfifat.DiscountActivity;
@@ -45,6 +46,16 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.ViewHo
             v.getContext().startActivity(intent);
         });
         Picasso.get().load(discount.getImageUrl()).into(holder.getImageUrlImageView());
+        Picasso.get().load(discount.getImageUrl()).into(holder.getImageUrlImageView(), new Callback() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onError(Exception e) {
+                holder.getImageUrlImageView().setImageResource(R.drawable.ic_baseline_no_photography_24);
+            }
+        });
         holder.getLinearLayout().setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), DiscountActivity.class);
             intent.putExtra("title", discount.getTitle());

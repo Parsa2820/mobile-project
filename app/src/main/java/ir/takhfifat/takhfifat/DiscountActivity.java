@@ -2,12 +2,14 @@ package ir.takhfifat.takhfifat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class DiscountActivity extends AppCompatActivity {
@@ -24,8 +26,22 @@ public class DiscountActivity extends AppCompatActivity {
         final TextView endDate = findViewById(R.id.discountEndDateTextView);
         final TextView category = findViewById(R.id.discountCategoryTextView);
 
-        Picasso.get().load(getIntent().getStringExtra("imageUrl")).into(discountImage);
+        Picasso.get().load(getIntent().getStringExtra("imageUrl")).into(discountImage, new Callback() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onError(Exception e) {
+                discountImage.setImageResource(R.drawable.ic_baseline_no_photography_24);
+            }
+        });
         title.setText(getIntent().getStringExtra("title"));
+        title.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(android.net.Uri.parse(getIntent().getStringExtra("link")));
+            v.getContext().startActivity(intent);
+        });
         description.setText(getIntent().getStringExtra("description"));
         copyCodeButton.setOnClickListener(v -> {
             android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
