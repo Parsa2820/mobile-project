@@ -2,11 +2,16 @@ package ir.takhfifat.takhfifat.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuHost;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,7 +37,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        final ProgressBar progressBar = binding.homeProgressBar;
         final RecyclerView discountsRecyclerView = binding.homeDiscountsRecyclerView;
+        final TextView errorTextView = binding.homeErrorTextView;
         discountsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         StringBuilder url = new StringBuilder(getString(R.string.api_address));
         url.append("discounts/");
@@ -41,9 +48,12 @@ public class HomeFragment extends Fragment {
             Gson gson = new Gson();
             Discount[] discounts = gson.fromJson(response, Discount[].class);
             discountsRecyclerView.setAdapter(new DiscountAdapter(discounts));
+            progressBar.setVisibility(View.GONE);
+            discountsRecyclerView.setVisibility(View.VISIBLE);
         }, error -> {
-            // TODO Handle error
-            throw new RuntimeException(error);
+            errorTextView.setText(error.getLocalizedMessage());
+            progressBar.setVisibility(View.GONE);
+            errorTextView.setVisibility(View.VISIBLE);
         });
         queue.add(stringRequest);
         return root;
