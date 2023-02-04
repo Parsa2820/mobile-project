@@ -1,5 +1,7 @@
 package ir.takhfifat.takhfifat.ui.home;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +32,7 @@ import ir.takhfifat.takhfifat.R;
 import ir.takhfifat.takhfifat.databinding.FragmentHomeBinding;
 import ir.takhfifat.takhfifat.model.Discount;
 import ir.takhfifat.takhfifat.ui.DiscountAdapter;
+import ir.takhfifat.takhfifat.ui.settings.SettingsFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -53,7 +56,17 @@ public class HomeFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         StringRequest stringRequest = new StringRequest(url.toString(), response -> {
             Gson gson = new Gson();
-            discounts = gson.fromJson(response, Discount[].class);
+            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(SettingsFragment.SHARED_PREFS, Activity.MODE_PRIVATE);
+            String region = sharedPreferences.getString("region", "Tehran");
+            Discount[] allDiscounts = gson.fromJson(response, Discount[].class);
+            ArrayList<Discount> discountsList = new ArrayList<>();
+            for (Discount discount : allDiscounts) {
+                if (discount.getRegion().equals(region)) {
+                    discountsList.add(discount);
+                }
+            }
+            discounts = new Discount[discountsList.size()];
+            discountsList.toArray(discounts);
             discountsRecyclerView.setAdapter(new DiscountAdapter(discounts));
             progressBar.setVisibility(View.GONE);
             homeLinearLayout.setVisibility(View.VISIBLE);

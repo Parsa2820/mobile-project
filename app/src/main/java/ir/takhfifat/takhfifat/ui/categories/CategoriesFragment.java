@@ -1,5 +1,7 @@
 package ir.takhfifat.takhfifat.ui.categories;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import ir.takhfifat.takhfifat.R;
 import ir.takhfifat.takhfifat.databinding.FragmentCategoriesBinding;
 import ir.takhfifat.takhfifat.model.Discount;
 import ir.takhfifat.takhfifat.ui.DiscountAdapter;
+import ir.takhfifat.takhfifat.ui.settings.SettingsFragment;
 
 public class CategoriesFragment extends Fragment {
 
@@ -51,7 +54,17 @@ public class CategoriesFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         StringRequest stringRequest = new StringRequest(discountsUrl, response -> {
             Gson gson = new Gson();
-            discounts = gson.fromJson(response, Discount[].class);
+            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(SettingsFragment.SHARED_PREFS, Activity.MODE_PRIVATE);
+            String region = sharedPreferences.getString("region", "Tehran");
+            Discount[] allDiscounts = gson.fromJson(response, Discount[].class);
+            ArrayList<Discount> discountsList = new ArrayList<>();
+            for (Discount discount : allDiscounts) {
+                if (discount.getRegion().equals(region)) {
+                    discountsList.add(discount);
+                }
+            }
+            discounts = new Discount[discountsList.size()];
+            discountsList.toArray(discounts);
             String categoriesUrl = getString(R.string.api_address) + "categories/";
             StringRequest categoriesStringRequest = new StringRequest(categoriesUrl, categoriesResponse -> {
                 String[] categories = gson.fromJson(categoriesResponse, String[].class);

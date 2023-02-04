@@ -8,6 +8,7 @@ public class Discount {
     private String category;
     private String endDate;
     private String code;
+    private String region;
 
     public String getTitle() {
         return title;
@@ -35,6 +36,10 @@ public class Discount {
 
     public String getCode() {
         return code;
+    }
+
+    public String getRegion() {
+        return region;
     }
 
     public boolean matches(String query) {
