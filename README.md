@@ -32,3 +32,10 @@ The application is written in Java and uses the following libraries:
 - [Picasso](https://square.github.io/picasso/)
 
 The application uses a RESTful API to fetch data from the [backend server](https://github.com/parsa2820/mobile-project-backend).
+
+The application consists of two activities:
+- MainActivity: The main activity of the application. It contains three fragments:
+  - HomeFragment: The home fragment of the application. It shows the list of deals and discounts and the search bar.
+  - CategoriesFragment: The categories fragment of the application. It shows the list of categories.
+  - SettingsFragment: The settings fragment of the application. It shows the settings of the application.
+- DiscountActivity: The discount activity of the application. It shows the details of a discount.
