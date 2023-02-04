@@ -36,4 +36,8 @@ public class Discount {
     public String getCode() {
         return code;
     }
+
+    public boolean matches(String query) {
+        return title.toLowerCase().contains(query.toLowerCase()) || description.toLowerCase().contains(query.toLowerCase());
+    }
 }
