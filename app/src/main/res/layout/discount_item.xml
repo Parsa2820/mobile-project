@@ -18,17 +18,16 @@
 
         <ImageView
             android:id="@+id/itemImageUrlImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:maxHeight="1dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/discount_image"
             tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
             android:padding="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
